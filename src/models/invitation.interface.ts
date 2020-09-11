@@ -6,3 +6,8 @@ export interface invitation extends Document{
 	created:String,
 	updated:String
 }
+export interface history extends Document{
+	invitationId:String,
+	date:String,
+	action:String
+}

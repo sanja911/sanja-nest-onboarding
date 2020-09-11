@@ -4,9 +4,14 @@ export const invitationSchema = new mongoose.Schema({
     notes:{type:String},
     status:{type:String,enum:['New','Accepted','Rejected','Edited']},
     created:{type:Date},
-    updated:{type:Date}
+    updated:{type:Date},
+    history:[{
+      invitationId:{type:String},
+      date:{type:Date,default:Date.now},
+      action:{type:String}
+    }]
 },{
-	versionkey:false
+	versionKey:false
 })
 invitationSchema.pre('save', function(next) {
   if (!this.created) 
@@ -14,7 +19,7 @@ invitationSchema.pre('save', function(next) {
   next();
 })
 invitationSchema.post('save',function(doc){
-	if(this.action == 'Edited')
+	if(this.status == 'Edited')
 		this.updated = new Date;
 
 	console.log("Success")

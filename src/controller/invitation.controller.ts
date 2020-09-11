@@ -6,8 +6,8 @@ import {history} from '../models/invitation.interface'
 export class InvitationController{
   constructor(private readonly invitationService:InvitationService){}
   @Post()
-   async createInv(@Body() cat:invitation):Promise<invitation[]>{
-    return await this.invitationService.createInvitation(cat);
+   async createInv(@Body() inv:invitation,history:history):Promise<invitation[]>{
+    return await this.invitationService.createInvitation(inv,history);
    }
   @Get()
    async GetAll(){
