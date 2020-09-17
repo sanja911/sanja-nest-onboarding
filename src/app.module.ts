@@ -3,9 +3,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import {MongooseModule } from '@nestjs/mongoose';
-import {invitationSchema} from './schema/invitation.schema';
-import {InvitationController} from './controller/invitation.controller';
-import {InvitationService} from './services/invitation.service';
+import {invitationSchema,historySchema} from './modules/schema/invitation.schema';
+import {userSchema} from './modules/schema/user.schema';
+import {OrganizationSchema} from './modules/schema/organization.schema';
+import {InvitationController} from './modules/controller/invitation.controller';
+import {InvitationService} from './modules/services/invitation.service';
+import {HistoryService} from './modules/services/history.service';
+
 
 @Module({
   imports: [
@@ -14,9 +18,21 @@ import {InvitationService} from './services/invitation.service';
       name:'invitation',
       schema:invitationSchema,
       collection:'invitation'
-    }])
+    },{
+      name:'history',
+      schema:historySchema,
+      collection:'history'
+    }/*,{
+      name:'users',
+      schema:userSchema,
+      collection:'users'
+    },{
+      name:'organizations',
+      schema:OrganizationSchema,
+      collection:'organizations'
+    }*/])
   ],
   controllers: [AppController,InvitationController],
-  providers: [AppService,InvitationService],
+  providers: [AppService,InvitationService,HistoryService],
 })
 export class AppModule {}
