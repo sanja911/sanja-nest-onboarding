@@ -8,25 +8,28 @@ import {history} from '../models/history.interface'
 @Injectable()
 export class InvitationService{
   constructor(@InjectModel('invitation') 
-    private readonly InvitationModel: Model<invitation>){}
+    private InvitationModel: Model<invitation>){}
 
   async createInvitation(Invitation:invitation|Array<invitation>){
     const create = await this.InvitationModel(Invitation);
+    //const view = await this.InvitationModel.find({_id:create._id}).populate('histories').exec()
+    
     return await create.save()
+    
   }
   
   async getAll():Promise<invitation[]>{
-      return await this.InvitationModel.find({});
+    return await this.InvitationModel.find({}).populate('histories').exec();
   }
   async findInv(organizationId){
     return await this.InvitationModel.findById(organizationId);
   }
   async findById(id){
-    return await this.InvitationModel.findById(id);
+    return await this.InvitationModel.findById(id).populate('histories').exec();
   }
    async updateInv(id,Invitation:invitation):Promise<invitation[]>{
      const editedInv = await this.InvitationModel.findByIdAndUpdate(id, Invitation, { new: true });
-    return editedInv;
+    return await editedInv;
   }
   async deleteInv(id,Invitation:invitation):Promise<invitation[]>{
   await this.InvitationModel.findById(id).updateOne({$set:{deleted:new String("True")}})

@@ -7,7 +7,7 @@ import {invitation} from '../models/invitation.interface';
 @Injectable()
 export class HistoryService{
   constructor(@InjectModel('history') 
-    private readonly HistoryModel: Model<history>,){}
+    private readonly HistoryModel: Model<history>){}
   async createHistory(id){
     const create = await this.HistoryModel({invitationId:id,action:new String("Created")});
    return await create.save()
