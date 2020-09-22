@@ -1,8 +1,9 @@
 module.exports = {
   apps : [{
-    name: 'serve-data-prod',
-    "script": "ts-node", // or locally "./node_modules/.bin/_ts-node" 
-    "args": "src/main.ts",
+    name: "GraphQL",
+    script: "src/main.ts",
+    // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
+    args: "src/main.ts",
     instances: 1,
     autorestart: true,
     watch: false,

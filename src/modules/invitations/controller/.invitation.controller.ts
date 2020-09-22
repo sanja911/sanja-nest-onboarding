@@ -1,7 +1,7 @@
 import {Controller,Get,Post,Body,Put, Delete,Param} from '@nestjs/common';
 import {InvitationService} from '../services/invitation.service';
 import {HistoryService} from '../services/history.service';
-import {invitation,users,organizations} from '../models/invitation.interface';
+import {invitation} from '../models/invitation.interface';
 import {history} from '../models/history.interface';
 //import {User} from '../models/user.interface';
 @Controller('invitation')
@@ -17,18 +17,8 @@ export class InvitationController{
     const invitation = await this.invitationService.createInvitation(inv);
     const invId = invitation._id
     const history = await this.historyService.createHistory(invId);
-    //const userId = invitation.userId
     const organizationId = invitation.organizationId
-    //const users =await this.UserService.findUser(userId)
-    //const organization = await this.orgService.findOrg(organizationId);
-    //await users.organizationsId.push(organization._id)
-    //await organization.invitationId.push(invitation._id)
-    //await users.invitationsId.push(invitation._id)
     await invitation.histories.push(history._id)
-    //await history.invitationId.push(invId)
-    //console.log(organization._id)
-    //await organization.save()
-    //await users.save()
     await history.save()
     return invitation.save()
    }
