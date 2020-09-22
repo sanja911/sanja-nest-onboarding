@@ -12,9 +12,10 @@ export interface invitation extends Document{
 }
 export enum Status{
 	NEW = 'NEW',
-	EDITED = 'EDITED',
+	UPDATED = 'UPDATED',
 	ACCEPTED = 'ACCEPTED',
-	REJECTED = 'REJECTED'
+	REJECTED = 'REJECTED',
+	DELETED = 'DELETED'
 }
 export interface users extends Document{
 	 name:String,

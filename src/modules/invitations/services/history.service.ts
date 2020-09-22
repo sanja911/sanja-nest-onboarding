@@ -8,23 +8,10 @@ import {invitation} from '../models/invitation.interface';
 export class HistoryService{
   constructor(@InjectModel('history') 
     private readonly HistoryModel: Model<history>){}
-  async createHistory(id){
-    const create = await this.HistoryModel({invitationId:id,action:new String("Created")});
+  async createHistory(id,Action){
+    const create = await this.HistoryModel({invitationId:id,action:Action});
    return await create.save()
    
-  }
-  async updateHistory(id){
-    const create = await this.HistoryModel({invitationId:id,action:new String("Updated")});
-   return await create.save()
-   
-  }
-  async deleteHistory(id){
-    const create = await this.HistoryModel({invitationId:id,action:new String("Deleted")});
-   return await create.save()
-   
-  }
-  async getAll():Promise<history[]>{
-      return await this.HistoryModel.find({});
   }
  
 }

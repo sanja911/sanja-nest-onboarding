@@ -27,12 +27,12 @@ export class InvitationService{
   async findById(id){
     return await this.InvitationModel.findById(id).populate('histories').exec();
   }
-   async updateInv(id,Invitation:invitation):Promise<invitation[]>{
+   async updateInv(id,Invitation:invitation|Array<invitation>){
      const editedInv = await this.InvitationModel.findByIdAndUpdate(id, Invitation, { new: true });
     return await editedInv;
   }
-  async deleteInv(id,Invitation:invitation):Promise<invitation[]>{
-  await this.InvitationModel.findById(id).updateOne({$set:{deleted:new String("True")}})
+  async deleteInv(id,Invitation:invitation|Array<invitation>){
+  await this.InvitationModel.findById(id).update({$set:{deleted:true,status:new String("DELETED")}})
   return await this.InvitationModel.findById(id);
   }
 }
