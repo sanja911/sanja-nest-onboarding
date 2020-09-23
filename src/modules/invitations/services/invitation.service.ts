@@ -1,8 +1,9 @@
 import {Injectable} from '@nestjs/common';
 import {Model} from 'mongoose';
 import {InjectModel} from '@nestjs/mongoose';
-import {invitation} from '../models/invitation.interface'
+import {invitation,Status} from '../models/invitation.interface'
 import {history} from '../models/history.interface'
+
 
 @Injectable()
 export class InvitationService{
@@ -29,7 +30,7 @@ export class InvitationService{
     return await editedInv;
   }
   async deleteInv(id,Invitation:invitation|Array<invitation>){
-  await this.InvitationModel.findById(id).update({$set:{deleted:true,status:String("DELETED"),deletedDate:Date.now()}})
+  await this.InvitationModel.findById(id).update({$set:{deleted:true,status:Status.DELETED,deletedDate:Date.now()}})
   return await this.InvitationModel.findById(id);
   }
 }
