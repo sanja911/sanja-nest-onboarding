@@ -44,7 +44,7 @@ export class InvitationController{
      @Param('id') id,
      @Body() Invitation:invitation,hist:history){
     const invitations = await this.invitationService.findById(id);
-    const del  = await this.invitationService.deleteInv(id,Invitation)
+    const del  = await this.invitationService.deleteInv(id)
     const Action = del.status
     const history = await this.historyService.createHistory(id,Action);
     await invitations.histories.push(history._id)

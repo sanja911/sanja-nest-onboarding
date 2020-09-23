@@ -3,7 +3,7 @@ import { InvitationService } from '../services/invitation.service';
 import { HistoryService } from '../services/history.service';
 import { InvitationType } from '../dto/invitation.dto';
 import { InvitationInput } from '../input/invitation.input';
-
+import {invitation} from '../models/invitation.interface'
 @Resolver()
 export class InvitationResolver {
   constructor(private readonly invitationService:  InvitationService,
@@ -18,7 +18,7 @@ export class InvitationResolver {
     return this.invitationService.findById(id)
   }
   @Mutation(() => InvitationType)
-  async create(@Args('input') input: InvitationInput){
+  async create(@Args('input') input: invitation){
     const invitation = await this.invitationService.createInv(input)
     const id = invitation._id
     const Action = invitation.status
@@ -30,7 +30,7 @@ export class InvitationResolver {
   }
   
   @Mutation(() => InvitationType)
-  async update(@Args('id') id: string,@Args('input') input: InvitationInput){
+  async update(@Args('id') id: string,@Args('input') input: invitation){
   const invitation =  await this.invitationService.findById(id);
   const invupdate = await this.invitationService.updateInv(id,input)
   const Action = invupdate.status

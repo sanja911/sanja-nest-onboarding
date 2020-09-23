@@ -1,12 +1,18 @@
 
+type HistoryType {
+  id:ID
+  invitationId:String
+  action:String
+}
 type InvitationType {
   id: ID!
   userId: String!
   organizationId: String!
   notes: String
-  histories:String
   status: String
+  histories:[HistoryType]
   deleted: Boolean
+  deletedDate: String
 }
 
 type Query {
@@ -25,7 +31,7 @@ input InvitationInput {
   userId: String
   organizationId: String
   notes: String
+  status:String
   histories: String
-  status: String
   deleted: Boolean
 }

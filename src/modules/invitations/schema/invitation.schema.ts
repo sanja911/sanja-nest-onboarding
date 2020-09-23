@@ -6,7 +6,7 @@ export const invitationSchema = new mongoose.Schema({
     organizationId:{type:mongoose.Schema.Types.ObjectId,ref:'Organization'},  
     notes:{type:String},
     status:{type:String,enum:Object.keys(Status).map(key=>Status[key]),default:Status.NEW},
-    histories:[{type:mongoose.Schema.Types.ObjectId, ref:'Histories'}],
+    histories:[{type:[mongoose.Schema.Types.ObjectId], ref:'Histories'}],
     created : {type:Date},
     updated : {type:Date},
     deleted : {type:Boolean, default:false},

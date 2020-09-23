@@ -24,7 +24,7 @@ export class InvitationService{
   async findById(id:string){
     return await this.InvitationModel.findById(id).populate('histories').exec();
   }
-  async updateInv(id:string,InvitationDTO:InvitationInput){
+  async updateInv(id:string,InvitationDTO:invitation){
     return await this.InvitationModel.findByIdAndUpdate(id, InvitationDTO, { new: true });
  }
  async updateStatus(id:string,Status:string){
