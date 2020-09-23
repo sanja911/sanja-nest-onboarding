@@ -31,7 +31,6 @@
     "graphql": "^15.3.0",
     "graphql-tools": "^6.2.2",
     "mongoose": "^5.10.5",
-    "mongoose-autopopulate": "^0.12.2",
     "nodemon": "^2.0.4",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

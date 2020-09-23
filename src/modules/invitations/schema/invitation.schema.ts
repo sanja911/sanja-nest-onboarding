@@ -27,16 +27,14 @@ export const historySchema = new mongoose.Schema({
 })
 const Histories = mongoose.model('Histories', historySchema);
 
+Invitation.find({}).populate('histories').exec()
 invitationSchema.pre('save',function(){
   this.updated = new Date
 })
 
-invitationSchema.pre('save',function(){
-    if(this.deleted==true)
-    this.deletedDate = new Date
-})
 invitationSchema.post('save',function(){
-  this.created = new Date
+    
+    this.created = new Date
 })
 
 historySchema.post('save', function() {
