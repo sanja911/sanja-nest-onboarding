@@ -32,10 +32,6 @@ invitationSchema.pre('save',function(){
   this.updated = new Date
 })
 
-invitationSchema.pre('save',function(){
-    if(this.deleted==true)
-    this.deletedDate = new Date
-})
 invitationSchema.post('save',function(){
     
     this.created = new Date

@@ -16,7 +16,6 @@ export class InvitationController{
     const Action = invitation.status
     const history = await this.historyService.createHistory(invId,Action);
     await invitation.histories.push(history._id)
-   // await history.save()
     await invitation.save()
     return await this.invitationService.findById(invId);
    }
