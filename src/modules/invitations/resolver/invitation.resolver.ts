@@ -17,8 +17,7 @@ export class InvitationResolver {
   }
   @Mutation(() => InvitationType)
   async create(@Args('input') input: invitation){
-   return await this.invitationService.createInv(input)
-    
+   return await this.invitationService.createInv(input) 
   }
   
   @Mutation(() => InvitationType)
@@ -28,8 +27,8 @@ export class InvitationResolver {
   }
   
   @Mutation(() => InvitationType)
-  async updateStat(@Args('id') id: string,@Args('status') status: string){
-  await this.invitationService.updateStatus(id,status) 
+  async updateStat(@Args('id') id: string,@Args('input') input: invitation){
+  await this.invitationService.updateStatus(id,input) 
   return await this.invitationService.findId(id)
   }
 

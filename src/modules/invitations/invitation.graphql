@@ -23,7 +23,7 @@ type Query {
 type Mutation {
   create(input: InvitationInput): InvitationType!
   update(input: InvitationInput!, id: String!): InvitationType!
-  updateStat(status: String, input: InvitationInput, id: String!): InvitationType
+  updateStat(input: InvitationInput!, id: String!): InvitationType!
   delete(id: String!): InvitationType!
 }
 
@@ -31,7 +31,15 @@ input InvitationInput {
   userId: String
   organizationId: String
   notes: String
-  status:String
+  status:Status
   histories: String
   deleted: Boolean
 }
+enum Status{
+  NEW,
+  UPDATED,
+  ACCEPTED,
+  REJECTED,
+  DELETED
+}
+
