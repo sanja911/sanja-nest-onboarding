@@ -6,8 +6,8 @@ export const invitationSchema = new mongoose.Schema({
     organizationId:{type:mongoose.Schema.Types.ObjectId,ref:'Organization'},  
     notes:{type:String},
     status:{type:String,enum:Object.keys(Status).map(key=>Status[key]),default:Status.NEW},
-    histories:[{type:mongoose.Schema.Types.ObjectId, ref:'Histories'}],
-    created : {type:Date},
+    histories:[{type:[mongoose.Schema.Types.ObjectId], ref:'Histories'}],
+    created : {type:Date,default:Date.now},
     updated : {type:Date},
     deleted : {type:Boolean, default:false},
     deletedDate : {type:Date}
@@ -36,6 +36,7 @@ invitationSchema.post('save',function(){
     
     this.created = new Date
 })
+
 historySchema.post('save', function() {
 this.date = new Date    
 

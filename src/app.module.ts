@@ -1,17 +1,21 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-
-import {MongooseModule } from '@nestjs/mongoose';
-import {InvitationModule} from './modules/invitations/invitation.module'
+import { GraphQLModule } from '@nestjs/graphql';
+import { InvitationModule } from './modules/invitations/invitation.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
     InvitationModule,
-    MongooseModule.forRoot("mongodb://localhost:27017/EO"),
-    
-  ],
-  // /controllers: [AppController,InvitationController],
-  //providers: [AppService,InvitationService,HistoryService],
+    GraphQLModule.forRoot({
+      typePaths:['./**/*/*.graphql'],
+      debug: false,
+      playground: true,
+      introspection:true
+    }),
+    MongooseModule.forRoot("mongodb://localhost:27017/EO")],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

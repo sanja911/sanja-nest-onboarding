@@ -1,0 +1,37 @@
+
+type HistoryType {
+  id:ID
+  invitationId:String
+  action:String
+}
+type InvitationType {
+  id: ID!
+  userId: String!
+  organizationId: String!
+  notes: String
+  status: String
+  histories:[HistoryType]
+  deleted: Boolean
+  deletedDate: String
+}
+
+type Query {
+  invitation: [InvitationType!]!
+  findInv(id:String): InvitationType!
+}
+
+type Mutation {
+  create(input: InvitationInput): InvitationType!
+  update(input: InvitationInput!, id: String!): InvitationType!
+  updateStat(status: String, input: InvitationInput, id: String!): InvitationType
+  delete(id: String!): InvitationType!
+}
+
+input InvitationInput {
+  userId: String
+  organizationId: String
+  notes: String
+  status:String
+  histories: String
+  deleted: Boolean
+}
