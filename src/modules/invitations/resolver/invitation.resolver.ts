@@ -1,6 +1,5 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { InvitationService } from '../services/invitation.service';
-import { InvitationType } from '../dto/invitation.dto';
 import {invitation} from '../models/invitation.interface'
 import { HistoryService } from '../services/history.service';
 @Resolver()

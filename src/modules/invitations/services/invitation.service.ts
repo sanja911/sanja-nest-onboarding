@@ -3,7 +3,6 @@ import {Model} from 'mongoose';
 import {InjectModel} from '@nestjs/mongoose';
 import {invitation,Status} from '../models/invitation.interface'
 import {history} from '../models/history.interface'
-import {InvitationType} from '../dto/invitation.dto'
 import {HistoryService } from '../services/history.service';
 
 

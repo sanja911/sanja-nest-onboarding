@@ -10,8 +10,9 @@ import { MongooseModule } from '@nestjs/mongoose';
     InvitationModule,
     GraphQLModule.forRoot({
       typePaths:['./**/*/*.graphql'],
-      debug: true,
+      debug: false,
       playground: true,
+      introspection:true
     }),
     MongooseModule.forRoot("mongodb://localhost:27017/EO")],
   controllers: [AppController],
