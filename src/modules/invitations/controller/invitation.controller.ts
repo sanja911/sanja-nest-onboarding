@@ -1,12 +1,11 @@
-import {Controller,Get,Post,Body,Put, Delete,Param,UseGuards} from '@nestjs/common';
+import {Controller,Get,Post,Body,Put, Delete,Param} from '@nestjs/common';
 import {InvitationService} from '../services/invitation.service';
 import {HistoryService} from '../services/history.service';
 import {invitation} from '../models/invitation.interface';
 import {history} from '../models/history.interface';
-import {AuthGuard} from '@nestjs/passport'
+
 @Controller('invitation')
 export class InvitationController{
-  @UseGuards(AuthGuard('local'))
   constructor(
     private readonly historyService:HistoryService,
     private readonly invitationService:InvitationService){}
