@@ -17,4 +17,19 @@ export enum Status{
 	REJECTED = 'REJECTED',
 	DELETED = 'DELETED'
 }
+export interface users extends Document{
+	 name:String,
+     username:String,
+     email:String,
+     password:String,
+     project:String,
+     orgId:String,
+     invId:String
+}
+export interface organizations extends Document{
+	 name:String,
+     users:String,
+     project:String,
+     invitationId:String
+}
 
