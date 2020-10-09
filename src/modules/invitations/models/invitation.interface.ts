@@ -1,5 +1,6 @@
 import {Document} from 'mongoose';
 import {history} from './history.interface'
+
 export interface invitation extends Document{
 	userId:String,
 	organizationId:String,
@@ -18,6 +19,7 @@ export enum Status{
 	DELETED = 'DELETED'
 }
 export interface users extends Document{
+	id:Number,
 	 name:String,
      username:String,
      email:String,
@@ -33,3 +35,12 @@ export interface organizations extends Document{
      invitationId:String
 }
 
+export type AuthenticatedUser = Pick<users,'id'>
+export type JwtPayload={
+	id:number;
+}
+export type UserContext={
+req:{
+	user:AuthenticatedUser
+}
+}

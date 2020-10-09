@@ -14,7 +14,8 @@ import { MongooseModule } from '@nestjs/mongoose';
       typePaths:['./**/*/*.graphql'],
       debug: false,
       playground: true,
-      introspection:true
+      introspection:true,
+      context:({req})=>({req})
     }),
 
     MongooseModule.forRoot("mongodb://localhost:27017/EO")],

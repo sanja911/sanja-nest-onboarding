@@ -3,6 +3,7 @@ type HistoryType {
   id:ID
   invitationId:String
   action:String
+  created:String
 }
 type InvitationType {
   id: ID!

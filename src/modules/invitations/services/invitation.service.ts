@@ -8,7 +8,8 @@ import {UsersService } from '../services/user.service';
 import {OrganizationService } from '../services/organization.service';
 @Injectable()
 export class InvitationService{
-  constructor(@InjectModel('invitation') private InvitationModel: Model<invitation>,
+  constructor(@InjectModel('invitation') 
+    private InvitationModel: Model<invitation>,
     private readonly historyService:HistoryService,
     private readonly UserService:UsersService,
     private readonly orgService:OrganizationService){}

@@ -10,9 +10,12 @@ import { OrganizationService } from './services/organization.service';
 import { UsersService } from './services/user.service';
 import { HistoryService } from './services/history.service';
 import { JwtModule } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 import { jwtConstants } from './middleware/config';
 import {JwtStrategy} from './middleware/jwt.strategy';
 import {AuthGuards} from './middleware/role.guard';
+import {AuthenticationGuard} from './middleware/role-graphql.guard'
+
 @Module({
     imports: [
     JwtModule.register({
@@ -28,6 +31,6 @@ import {AuthGuards} from './middleware/role.guard';
     	])
     ],
     controllers: [InvitationController],
-    providers: [AuthGuards,JwtStrategy,InvitationResolver,OrganizationService,UsersService,InvitationService,HistoryService],
+    providers: [ConfigService,AuthenticationGuard,AuthGuards,JwtStrategy,InvitationResolver,OrganizationService,UsersService,InvitationService,HistoryService],
 })
 export class InvitationModule {}
