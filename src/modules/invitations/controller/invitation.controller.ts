@@ -3,6 +3,7 @@ import {InvitationService} from '../services/invitation.service';
 import {HistoryService} from '../services/history.service';
 import {invitation} from '../models/invitation.interface';
 import {history} from '../models/history.interface';
+
 @Controller('invitation')
 export class InvitationController{
   constructor(
@@ -26,6 +27,12 @@ export class InvitationController{
    	@Param('id') id,
    	@Body() Invitation:invitation,hist:history){
     return await this.invitationService.updateInv(id,Invitation)
+   }
+   @Put('status/:id')
+   async UpdateStatus(
+     @Param('id') id,
+     @Body() Invitation:invitation,hist:history){
+    return await this.invitationService.updateStatus(id,Invitation)
    
    }
    @Delete('/:id')

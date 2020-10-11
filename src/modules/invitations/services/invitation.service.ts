@@ -29,22 +29,21 @@ export class InvitationService{
   }
   async updateInv(id:string,InvitationDTO:invitation){
     const updateInvitation = await this.InvitationModel.findByIdAndUpdate(id, InvitationDTO, { new: true });
-    const Action = updateInvitation.status
+    const Action = Status.UPDATED
     const history = await this.historyService.createHistory(id,Action);
     await updateInvitation.histories.push(history._id)
     await updateInvitation.save()
     return  await this.InvitationModel.find({_id:id}).populate('histories').exec();
- }
- async updateStatus(id:string,Status:string){
-  const invitation =  await this.InvitationModel.findById(id);
-  const updatestat = await this.InvitationModel.findById(id)
-  const Action = updatestat.status
+  }
+ async updateStatus(id:string,Invitation:invitation){
+  const invitation =  await this.InvitationModel.findByIdAndUpdate(id,Invitation,{new:true});
+  const Action = invitation.status
   const history = await this.historyService.createHistory(id,Action);
   await invitation.histories.push(history._id)
   await invitation.save()
-  await this.InvitationModel.findById(id).updateOne({$set:{status:(Status)}})
   return  await this.InvitationModel.find({_id:id}).populate('histories').exec();
   }
+
   async deleteInv(id:string){
   const invitations = await this.InvitationModel.findById(id);
   const del = await this.InvitationModel.findById(id).update({$set:{deleted:true,status:Status.DELETED,deletedDate:Date.now()}})

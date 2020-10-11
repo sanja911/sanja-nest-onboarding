@@ -19,7 +19,7 @@ const Invitation = mongoose.model('Invitation', invitationSchema);
 
 export const historySchema = new mongoose.Schema({
    invitationId:{type:mongoose.Schema.Types.ObjectId, ref:'Invitation'},
-   date:{type:Date},
+   created:{type:Date,default:Date.now},
    action:{type:String,enum:Object.keys(Status).map(key=>Status[key]),default:Status.NEW}
 },{
   versionKey:false,
@@ -27,7 +27,6 @@ export const historySchema = new mongoose.Schema({
 })
 const Histories = mongoose.model('Histories', historySchema);
 
-Invitation.find({}).populate('histories').exec()
 invitationSchema.pre('save',function(){
   this.updated = new Date
 })
@@ -37,9 +36,5 @@ invitationSchema.post('save',function(){
     this.created = new Date
 })
 
-historySchema.post('save', function() {
-this.date = new Date    
-
-})
 
 
