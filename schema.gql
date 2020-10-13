@@ -18,7 +18,11 @@ type Query {
 type Mutation {
   create(input: InvitationInput!): InvitationType!
   update(input: InvitationInput!, id: String!): InvitationType!
-  updateStat(status: String!, input: InvitationInput!, id: String!): InvitationType!
+  updateStat(
+    status: String!
+    input: InvitationInput!
+    id: String!
+  ): InvitationType!
   delete(id: String!): InvitationType!
 }
 

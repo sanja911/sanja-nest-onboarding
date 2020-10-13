@@ -1,9 +1,11 @@
-import { Module } from '@nestjs/common';
+import { Module,MiddlewareConsumer,RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { JwtModule } from '@nestjs/jwt';
 import { GraphQLModule } from '@nestjs/graphql';
 import { InvitationModule } from './modules/invitations/invitation.module';
 import { MongooseModule } from '@nestjs/mongoose';
+// import {JwtTokenMiddleware} from './modules/invitations/middleware/auth.middleware'
 
 @Module({
   imports: [
@@ -12,8 +14,10 @@ import { MongooseModule } from '@nestjs/mongoose';
       typePaths:['./**/*/*.graphql'],
       debug: false,
       playground: true,
-      introspection:true
+      introspection:true,
+      context:({req})=>({req})
     }),
+
     MongooseModule.forRoot("mongodb://localhost:27017/EO")],
   controllers: [AppController],
   providers: [AppService],
