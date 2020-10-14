@@ -41,12 +41,12 @@ export class AuthenticationGuard implements CanActivate {
       }
       const user = await this.userService.findById(decoded.id);
       const organization = await this.orgService.findRole(user, ctxs);
-      // console.log(organization)
+      console.log(decoded);
       // console.log(user)
-      if (!organization || organization === 'Member') {
-        this.unAuthorized();
-      }
-      ctx.user = user;
+      // if (!organization || organization === 'Member') {
+      //   this.unAuthorized();
+      // }
+      // ctx.user = user;
       return true;
     } else {
       this.unAuthorized();
