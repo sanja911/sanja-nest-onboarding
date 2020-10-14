@@ -13,5 +13,6 @@ import { OrganizationService } from './Services/organization.service';
     ]),
   ],
   providers: [OrganizationService],
+  exports: [OrganizationService],
 })
 export class OrganizationModule {}

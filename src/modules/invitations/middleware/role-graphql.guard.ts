@@ -1,31 +1,31 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
-import { HttpException } from '@nestjs/common/exceptions/http.exception';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
 import { jwtConstants } from './config';
 import { UsersService } from '../../Users/Services/user.service';
 import { OrganizationService } from '../../Organizations/Services/organization.service';
 import { GqlExecutionContext } from '@nestjs/graphql';
-
+import { InvitationService } from '../services/invitation.service';
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
   constructor(
     private readonly userService: UsersService,
     private readonly orgService: OrganizationService,
+    private readonly invitationService: InvitationService,
   ) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const ctxs = GqlExecutionContext.create(context);
     const ctx = ctxs.getArgs();
-    // console.log(ctx.input.organizationId)
-    return await this.validateRequest(
-      ctxs.getContext(),
-      ctx.input.organizationId,
-    );
+    if (!ctx.id) {
+      return await this.validateRequest(
+        ctxs.getContext(),
+        ctx.input.organizationId,
+      );
+      // return true;
+    }
+    return await this.getDataById(ctx.id);
+    // return true;
   }
+
   async validateRequest(ctx, ctxs) {
     const authHeaders = ctx.req.headers.authorization;
     if (authHeaders && (authHeaders as string).split(' ')[1]) {
@@ -34,31 +34,32 @@ export class AuthenticationGuard implements CanActivate {
       try {
         decoded = jwt.verify(token, jwtConstants.secret);
         if (decoded.exp < Date.now() / 1000) {
-          this.unAuthorized();
+          return false;
         }
       } catch (e) {
-        this.unAuthorized();
+        return false;
       }
       const user = await this.userService.findById(decoded.id);
+      if (!user) return false;
       const organization = await this.orgService.findRole(user, ctxs);
-      console.log(decoded);
-      // console.log(user)
-      // if (!organization || organization === 'Member') {
-      //   this.unAuthorized();
-      // }
-      // ctx.user = user;
+      // console.log(ctxs);
+      // console.log(organization);
+      // console.log(user);
+      if (
+        !organization ||
+        (organization !== 'Manager' && organization !== 'Owner')
+      ) {
+        return false;
+      }
+      ctx.user = user;
       return true;
     } else {
-      this.unAuthorized();
+      return false;
     }
   }
-
-  // TODO make an utility function across all app.
-  private unAuthorized() {
-    const errors = { id: 'You are not authorized for this organization' };
-    throw new HttpException(
-      { data: { message: 'Token is not valid', errors } },
-      HttpStatus.UNAUTHORIZED,
-    );
+  async getDataById(id: string) {
+    const findData = await this.invitationService.findId(id);
+    if (!findData) return false;
+    return true;
   }
 }

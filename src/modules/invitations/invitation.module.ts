@@ -6,14 +6,16 @@ import { OrganizationSchema } from '../Organizations/Schema/organization.schema'
 import { userSchema } from '../Users/Schema/user.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { InvitationService } from './services/invitation.service';
-import { OrganizationService } from '../Organizations/Services/organization.service';
-import { UsersService } from '../Users/Services/user.service';
+// import { OrganizationService } from '../Organizations/Services/organization.service';
+// import { UsersService } from '../Users/Services/user.service';
+import { UserModule } from '../Users/user.module';
+import { OrganizationModule } from '../Organizations/organizations.module';
 import { HistoryService } from './services/history.service';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { jwtConstants } from './middleware/config';
 import { JwtStrategy } from './middleware/jwt.strategy';
-import { AuthGuards } from './middleware/role.guard';
+import { AuthGuards } from './middleware/AuthenticationGuard.guard';
 import { AuthenticationGuard } from './middleware/role-graphql.guard';
 
 @Module({
@@ -22,6 +24,8 @@ import { AuthenticationGuard } from './middleware/role-graphql.guard';
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '1h' },
     }),
+    UserModule,
+    OrganizationModule,
     MongooseModule.forFeature([
       {
         name: 'invitation',
@@ -44,8 +48,6 @@ import { AuthenticationGuard } from './middleware/role-graphql.guard';
     AuthGuards,
     JwtStrategy,
     InvitationResolver,
-    OrganizationService,
-    UsersService,
     InvitationService,
     HistoryService,
   ],
