@@ -1,16 +1,8 @@
-import {
-  Injectable,
-  CanActivate,
-  ExecutionContext,
-  HttpStatus,
-  Param,
-} from '@nestjs/common';
-import { Observable } from 'rxjs';
+import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { organizations } from '../models/invitation.interface';
+import { organizations } from '../../Organizations/Interfaces/organization.interface';
 import { InvitationService } from '../services/invitation.service';
-import { HttpException } from '@nestjs/common/exceptions/http.exception';
 
 @Injectable()
 export class AuthGuards implements CanActivate {
@@ -21,15 +13,12 @@ export class AuthGuards implements CanActivate {
   ) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const result = context.switchToHttp().getResponse();
-    // console.log(request.user.id);
     const usersId = request.user.id;
     const orgId = request.body.organizationId;
     const org = await this.OrganizationsModel.findOne(
       { _id: orgId },
       { users: { $elemMatch: { userId: usersId } } },
     ).exec();
-    const id = request.params.id;
     if (!request.params.id) {
       const getRole = org.get('users.role').toString();
       if (getRole === 'Member' || !getRole || !org) {

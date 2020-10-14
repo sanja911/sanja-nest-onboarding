@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
-import { OrganizationSchema } from './schema/user.schema';
+import { OrganizationSchema } from './Schema/organization.schema';
 import { MongooseModule } from '@nestjs/mongoose';
-import { OrganizationService } from './services/organization.service';
-
+import { OrganizationService } from './Services/organization.service';
 @Module({
   imports: [
     MongooseModule.forFeature([

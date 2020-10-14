@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { invitation, Status } from '../models/invitation.interface';
-import { history } from '../models/history.interface';
+import { invitation, Status } from '../Interfaces/invitation.interface';
+// import { history } from '../models/history.interface';
 import { HistoryService } from '../services/history.service';
-import { UsersService } from '../services/user.service';
-import { OrganizationService } from '../services/organization.service';
+import { UsersService } from '../../Users/Services/user.service';
+import { OrganizationService } from '../../Organizations/Services/organization.service';
 @Injectable()
 export class InvitationService {
   constructor(
@@ -78,7 +78,7 @@ export class InvitationService {
 
   async deleteInv(id: string) {
     const invitations = await this.InvitationModel.findById(id);
-    const del = await this.InvitationModel.findById(id).update({
+    await this.InvitationModel.findById(id).update({
       $set: { deleted: true, status: Status.DELETED, deletedDate: Date.now() },
     });
     const Action = Status.DELETED;

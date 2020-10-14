@@ -10,8 +10,8 @@ import {
 } from '@nestjs/common';
 import { InvitationService } from '../services/invitation.service';
 import { HistoryService } from '../services/history.service';
-import { invitation } from '../models/invitation.interface';
-import { history } from '../models/history.interface';
+import { invitation } from '../Interfaces/invitation.interface';
+import { history } from '../Interfaces/history.interface';
 import { AuthGuard } from '@nestjs/passport';
 // import {JwtAuthGuard} from '../middleware/jwt-auth.guard';
 import { AuthGuards } from '../middleware/role.guard';

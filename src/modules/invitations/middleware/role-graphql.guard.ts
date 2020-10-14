@@ -1,22 +1,32 @@
-import { CanActivate, ExecutionContext, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import * as jwt from 'jsonwebtoken';
-import {jwtConstants} from './config'
-import { UsersService } from '../services/user.service';
-import { OrganizationService } from '../services/organization.service';
+import { jwtConstants } from './config';
+import { UsersService } from '../../Users/Services/user.service';
+import { OrganizationService } from '../../Organizations/Services/organization.service';
 import { GqlExecutionContext } from '@nestjs/graphql';
-
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
-  constructor(private readonly userService: UsersService,private readonly orgService: OrganizationService) {}
- async canActivate(context: ExecutionContext): Promise<boolean> {
-    const ctx = GqlExecutionContext.create(context).getArgs();
+  constructor(
+    private readonly userService: UsersService,
+    private readonly orgService: OrganizationService,
+  ) {}
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const ctxs = GqlExecutionContext.create(context);
+    const ctx = ctxs.getArgs();
     // console.log(ctx.input.organizationId)
-    return await this.validateRequest(ctxs.getContext(),ctx.input.organizationId);
+    return await this.validateRequest(
+      ctxs.getContext(),
+      ctx.input.organizationId,
+    );
   }
-async validateRequest(ctx,ctxs) {
+  async validateRequest(ctx, ctxs) {
     const authHeaders = ctx.req.headers.authorization;
     if (authHeaders && (authHeaders as string).split(' ')[1]) {
       const token = (authHeaders as string).split(' ')[1];
@@ -30,10 +40,10 @@ async validateRequest(ctx,ctxs) {
         this.unAuthorized();
       }
       const user = await this.userService.findById(decoded.id);
-      const organization = await this.orgService.findRole(user,ctxs)
+      const organization = await this.orgService.findRole(user, ctxs);
       // console.log(organization)
       // console.log(user)
-      if (!organization||organization==='Member') {
+      if (!organization || organization === 'Member') {
         this.unAuthorized();
       }
       ctx.user = user;
