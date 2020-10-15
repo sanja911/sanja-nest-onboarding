@@ -48,6 +48,7 @@ export class InvitationController {
   async UpdateStatus(@Param('id') id, @Body() Invitation: invitation) {
     return await this.invitationService.updateStatus(id, Invitation);
   }
+
   @UseGuards(AuthGuard('jwt'), AuthGuards)
   @Delete('/:id')
   async Delete(@Param('id') id) {

@@ -21,7 +21,7 @@ export class AuthGuards implements CanActivate {
     ).exec();
     if (!request.params.id) {
       const getRole = org.get('users.role').toString();
-      if (getRole === 'Member' || !getRole || !org) {
+      if ((getRole !== 'Manager' && getRole !== 'Owner') || !getRole || !org) {
         return false;
       }
       return true;
@@ -44,7 +44,7 @@ export class AuthGuards implements CanActivate {
       { users: { $elemMatch: { userId: usersId } } },
     ).exec();
     const getRole = org.get('users.role').toString();
-    if (getRole == 'Member') {
+    if (getRole === 'Member') {
       result.status(404).json({ message: 'Data not found' });
     }
     return true;
