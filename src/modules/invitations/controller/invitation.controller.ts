@@ -11,7 +11,7 @@ import {
 import { InvitationService } from '../services/invitation.service';
 import { HistoryService } from '../services/history.service';
 import { invitation } from '../Interfaces/invitation.interface';
-import { history } from '../Interfaces/history.interface';
+// import { history } from '../Interfaces/history.interface';
 import { AuthGuard } from '@nestjs/passport';
 // import {JwtAuthGuard} from '../middleware/jwt-auth.guard';
 import { AuthGuards } from '../middleware/AuthenticationGuard.guard';
@@ -40,16 +40,12 @@ export class InvitationController {
   }
   @UseGuards(AuthGuard('jwt'), AuthGuards)
   @Put('/:id')
-  async Update(@Param('id') id, @Body() Invitation: invitation, hist: history) {
+  async Update(@Param('id') id, @Body() Invitation: invitation) {
     return await this.invitationService.updateInv(id, Invitation);
   }
   @UseGuards(AuthGuard('jwt'), AuthGuards)
   @Put('status/:id')
-  async UpdateStatus(
-    @Param('id') id,
-    @Body() Invitation: invitation,
-    hist: history,
-  ) {
+  async UpdateStatus(@Param('id') id, @Body() Invitation: invitation) {
     return await this.invitationService.updateStatus(id, Invitation);
   }
   @UseGuards(AuthGuard('jwt'), AuthGuards)
