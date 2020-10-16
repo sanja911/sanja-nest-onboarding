@@ -7,6 +7,10 @@ export const invitationSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Organization',
     },
+    projectId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Project',
+    },
     notes: { type: String },
     status: {
       type: String,

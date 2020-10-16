@@ -4,6 +4,7 @@ import { history } from './history.interface';
 export interface invitation extends Document {
   userId: String;
   organizationId: String;
+  projectId: String;
   notes: String;
   status: Status;
   created: String;

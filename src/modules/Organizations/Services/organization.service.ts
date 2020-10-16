@@ -1,12 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { InjectModel } from '@nestjs/mongoose';
+// import { InjectModel } from '@nestjs/mongoose';
 import { organizations } from '../../Organizations/Interfaces/organization.interface';
 
 @Injectable()
 export class OrganizationService {
   constructor(
-    @InjectModel('organizations')
+    @Inject('organizations')
     private OrganizationsModel: Model<organizations>,
   ) {}
 

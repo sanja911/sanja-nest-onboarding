@@ -1,13 +1,17 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+} from '@nestjs/common';
 import { Model } from 'mongoose';
-import { InjectModel } from '@nestjs/mongoose';
 import { organizations } from '../../Organizations/Interfaces/organization.interface';
 import { InvitationService } from '../services/invitation.service';
 
 @Injectable()
 export class AuthGuards implements CanActivate {
   constructor(
-    @InjectModel('organizations')
+    @Inject('organizations')
     private OrganizationsModel: Model<organizations>,
     private readonly invitationService: InvitationService,
   ) {}
@@ -15,6 +19,9 @@ export class AuthGuards implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const usersId = request.user.id;
     const orgId = request.body.organizationId;
+    if (!orgId) {
+      return true;
+    }
     const org = await this.OrganizationsModel.findOne(
       { _id: orgId },
       { users: { $elemMatch: { userId: usersId } } },

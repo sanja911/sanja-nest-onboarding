@@ -1,23 +1,24 @@
 type HistoryType {
-  id:ID
-  invitationId:String
-  action:String
-  created:String
+  id: ID
+  invitationId: String
+  action: String
+  created: String
 }
 type InvitationType {
   id: ID!
   userId: String!
   organizationId: String!
+  projectId: String!
   notes: String
   status: String
-  histories:[HistoryType]
+  histories: [HistoryType]
   deleted: Boolean
   deletedDate: String
 }
 
 type Query {
   invitation: [InvitationType!]!
-  findInv(id:String): InvitationType!
+  findInv(id: String): InvitationType!
 }
 
 type Mutation {
@@ -30,16 +31,16 @@ type Mutation {
 input InvitationInput {
   userId: String
   organizationId: String
+  projectId: String
   notes: String
-  status:Status
+  status: Status
   histories: String
   deleted: Boolean
 }
-enum Status{
-  NEW,
-  UPDATED,
-  ACCEPTED,
-  REJECTED,
+enum Status {
+  NEW
+  UPDATED
+  ACCEPTED
+  REJECTED
   DELETED
 }
-

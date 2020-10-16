@@ -1,36 +1,23 @@
-import { Injectable, ExecutionContext } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { InjectModel } from '@nestjs/mongoose';
 import { invitation, Status } from '../Interfaces/invitation.interface';
-// import { history } from '../models/history.interface';
 import { HistoryService } from '../services/history.service';
 import { UsersService } from '../../Users/Services/user.service';
-import { OrganizationService } from '../../Organizations/Services/organization.service';
 @Injectable()
 export class InvitationService {
   constructor(
-    @InjectModel('invitation')
+    @Inject('invitation')
     private InvitationModel: Model<invitation>,
     private readonly historyService: HistoryService,
     private readonly UserService: UsersService,
-    private readonly orgService: OrganizationService,
   ) {}
   async createInv(createInvDTO: invitation) {
     const create = await this.InvitationModel(createInvDTO);
     const id = create._id;
-    const usersId = create.userId;
     const Action = create.status;
-    const user = await this.UserService.findById(usersId);
-    const organization = await this.orgService.findOrg(create.organizationId);
     const history = await this.historyService.createHistory(id, Action);
-    await user.invId.push(id);
     await create.histories.push(history._id);
-    await user.orgId.push(create.organizationId);
-    await organization.users.push({ role: 'Member', userId: usersId });
-    await organization.invitationId.push(create._id);
     await create.save();
-    await user.save();
-    await organization.save();
     return await this.InvitationModel.findById(id)
       .populate('histories')
       .exec();
@@ -62,15 +49,15 @@ export class InvitationService {
       .exec();
   }
   async updateStatus(id: string, Invitation: invitation) {
-    const invitation = await this.InvitationModel.findByIdAndUpdate(
+    const invitationEntry = await this.InvitationModel.findByIdAndUpdate(
       id,
       Invitation,
       { new: true },
     );
-    const Action = invitation.status;
+    const Action = invitationEntry.status;
     const history = await this.historyService.createHistory(id, Action);
-    await invitation.histories.push(history._id);
-    await invitation.save();
+    await invitationEntry.histories.push(history._id);
+    await invitationEntry.save();
     return await this.InvitationModel.find({ _id: id })
       .populate('histories')
       .exec();

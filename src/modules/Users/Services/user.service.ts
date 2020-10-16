@@ -1,11 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { InjectModel } from '@nestjs/mongoose';
 import { users } from '../Interfaces/user.interface';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectModel('users')
+    @Inject('users')
     private UsersModel: Model<users>,
   ) {}
 

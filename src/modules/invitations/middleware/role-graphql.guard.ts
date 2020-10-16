@@ -6,7 +6,7 @@ import { OrganizationService } from '../../Organizations/Services/organization.s
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { InvitationService } from '../services/invitation.service';
 @Injectable()
-export class AuthenticationGuard implements CanActivate {
+export class RoleGraphqlGuard implements CanActivate {
   constructor(
     private readonly userService: UsersService,
     private readonly orgService: OrganizationService,
@@ -20,7 +20,6 @@ export class AuthenticationGuard implements CanActivate {
         ctxs.getContext(),
         ctx.input.organizationId,
       );
-      // return true;
     }
     return await this.getDataById(ctx.id);
     // return true;
@@ -41,14 +40,10 @@ export class AuthenticationGuard implements CanActivate {
       }
       const user = await this.userService.findById(decoded.id);
       if (!user) return false;
+      if (!ctxs) return true;
       const organization = await this.orgService.findRole(user, ctxs);
-      // console.log(ctxs);
-      // console.log(organization);
-      // console.log(user);
-      if (
-        !organization ||
-        (organization !== 'Manager' && organization !== 'Owner')
-      ) {
+
+      if (organization !== 'Manager' && organization !== 'Owner') {
         return false;
       }
       ctx.user = user;

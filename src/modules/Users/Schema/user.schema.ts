@@ -23,6 +23,7 @@ export const userSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Organization',
+        unique: true,
       },
     ],
     invId: [

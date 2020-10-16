@@ -14,7 +14,7 @@ import { invitation } from '../Interfaces/invitation.interface';
 // import { history } from '../Interfaces/history.interface';
 import { AuthGuard } from '@nestjs/passport';
 // import {JwtAuthGuard} from '../middleware/jwt-auth.guard';
-import { AuthGuards } from '../middleware/AuthenticationGuard.guard';
+import { AuthGuards } from '../middleware/auth.guard';
 import { JwtStrategy } from '../middleware/jwt.strategy';
 @Controller('invitation')
 export class InvitationController {

@@ -1,18 +1,10 @@
 import { Module } from '@nestjs/common';
-import { OrganizationSchema } from './Schema/organization.schema';
-import { MongooseModule } from '@nestjs/mongoose';
 import { OrganizationService } from './Services/organization.service';
+import { organizationProviders } from './Provider/organization.provider';
+import { DatabaseModule } from '../database/database.module';
 @Module({
-  imports: [
-    MongooseModule.forFeature([
-      {
-        name: 'organizations',
-        schema: OrganizationSchema,
-        collection: 'organizations',
-      },
-    ]),
-  ],
-  providers: [OrganizationService],
-  exports: [OrganizationService],
+  imports: [DatabaseModule],
+  providers: [OrganizationService, ...organizationProviders],
+  exports: [OrganizationService, ...organizationProviders],
 })
 export class OrganizationModule {}
