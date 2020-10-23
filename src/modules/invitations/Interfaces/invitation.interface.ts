@@ -1,4 +1,5 @@
 import { Document } from 'mongoose';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { history } from './history.interface';
 
 export interface invitation extends Document {

@@ -16,9 +16,7 @@ import { AppGateway } from './app.gateway';
     UserModule,
     GraphQLModule.forRoot({
       typePaths: ['./**/*/*.graphql'],
-      debug: false,
-      playground: true,
-      introspection: true,
+      installSubscriptionHandlers: true,
       context: ({ req }) => ({ req }),
     }),
 

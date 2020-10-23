@@ -27,6 +27,9 @@ type Mutation {
   updateStat(input: InvitationInput!, id: String!): InvitationType!
   delete(id: String!): InvitationType!
 }
+type Subscription {
+  userInvited(userId: String!): InvitationType
+}
 
 input InvitationInput {
   userId: String
